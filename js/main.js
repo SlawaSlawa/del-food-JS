@@ -23,17 +23,21 @@ const buttonAuth = document.querySelector('.button-auth'),
 let login = localStorage.getItem('gloDelivery') || '';
 console.log('login: ', login);
 
-
-
 // Авторизация
 
 // Открытие закрытие модального окна авторизации
 function toggleModalAuth() {
   modalAuth.classList.toggle("is-open");
+
+  if (modalAuth.classList.contains("is-open")) {
+    disableScroll();
+  } else {
+    enableScroll();
+  }
+
+  logInForm.reset();
   inputAlert.style.display = '';
 }
-
-
 
 function autorized() {
 
@@ -63,7 +67,7 @@ function notAutorized() {
   function logIn(event) {
     event.preventDefault();
 
-    if (loginInput.value) {
+    if (loginInput.value.trim()) {
       login = loginInput.value;
       localStorage.setItem('gloDelivery', login);
       toggleModalAuth();
@@ -75,12 +79,20 @@ function notAutorized() {
       checkAuth();
     } else {
       inputAlert.style.display = 'block';
+      loginInput.value = '';
     }
   }
 
   buttonAuth.addEventListener('click', toggleModalAuth);
   closeAuth.addEventListener('click', toggleModalAuth);
   logInForm.addEventListener('submit', logIn);
+  modalAuth.addEventListener('click', function (event) {
+    const target = event.target;
+
+    if (target.classList.contains('is-open')) {
+      toggleModalAuth();
+    }
+  });
 }
 
 function checkAuth() {
@@ -92,3 +104,4 @@ function checkAuth() {
 }
 
 checkAuth();
+

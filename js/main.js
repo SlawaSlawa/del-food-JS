@@ -16,11 +16,13 @@ const buttonAuth = document.querySelector('.button-auth'),
   logInForm = document.getElementById('logInForm'),
   loginInput = document.getElementById('login'),
   userName = document.querySelector('.user-name'),
-  buttonOut = document.querySelector('.button-out');
+  buttonOut = document.querySelector('.button-out'),
+  inputAlert = document.querySelector('.input-alert');
 
 
 let login = localStorage.getItem('gloDelivery') || '';
 console.log('login: ', login);
+
 
 
 // Авторизация
@@ -28,6 +30,7 @@ console.log('login: ', login);
 // Открытие закрытие модального окна авторизации
 function toggleModalAuth() {
   modalAuth.classList.toggle("is-open");
+  inputAlert.style.display = '';
 }
 
 
@@ -59,14 +62,20 @@ function notAutorized() {
 
   function logIn(event) {
     event.preventDefault();
-    login = loginInput.value;
-    localStorage.setItem('gloDelivery', login);
-    toggleModalAuth();
-    buttonAuth.removeEventListener('click', toggleModalAuth);
-    closeAuth.removeEventListener('click', toggleModalAuth);
-    logInForm.removeEventListener('submit', logIn);
-    logInForm.reset();
-    checkAuth();
+
+    if (loginInput.value) {
+      login = loginInput.value;
+      localStorage.setItem('gloDelivery', login);
+      toggleModalAuth();
+      buttonAuth.removeEventListener('click', toggleModalAuth);
+      closeAuth.removeEventListener('click', toggleModalAuth);
+      logInForm.removeEventListener('submit', logIn);
+      logInForm.reset();
+      inputAlert.style.display = '';
+      checkAuth();
+    } else {
+      inputAlert.style.display = 'block';
+    }
   }
 
   buttonAuth.addEventListener('click', toggleModalAuth);

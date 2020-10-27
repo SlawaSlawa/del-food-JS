@@ -447,6 +447,7 @@ button {
 .label-auth {
     display: block;
     margin: 30px;
+    position: relative;
 }
 
 .label-auth span {
@@ -485,6 +486,18 @@ button {
 
 .modal-body {
     margin-bottom: 22px;
+}
+
+.label-auth span.input-alert {
+    display: none;
+    position: absolute;
+    font-size: 12px;
+    border: 1px solid red;
+    padding: 3px 10px;
+    border-radius: 3px;
+    top: -30px;
+    right: 0;
+    width: auto;
 }
 
 .food-row {

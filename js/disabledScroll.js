@@ -2,7 +2,6 @@
 
 window.disableScroll = function () {
     const widthScroll = window.innerWidth - document.body.offsetWidth;
-    console.log('widthScroll: ', widthScroll);
 
     document.body.dbscrollY = window.scrollY;
 

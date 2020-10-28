@@ -101,7 +101,6 @@ function checkAuth() {
   }
 }
 
-checkAuth();
 
 function createCardRestaurant() {
   const card = `
@@ -163,26 +162,34 @@ function createCardGood() {
 function openGoods(event) {
   const target = event.target;
   const restaurant = target.closest('.card-restaurant');
+  if (login) {
+    if (restaurant) {
+      cardsMenu.textContent = '';
+      containerPromo.classList.add('hide');
+      restaurants.classList.add('hide');
+      menu.classList.remove('hide');
 
-  if (restaurant) {
-    cardsMenu.textContent = '';
-    containerPromo.classList.add('hide');
-    restaurants.classList.add('hide');
-    menu.classList.remove('hide');
-
-    createCardGood();
-    createCardGood();
-    createCardGood();
+      createCardGood();
+      createCardGood();
+      createCardGood();
+    }
+  } else {
+    toggleModalAuth();
   }
+
 }
 
+checkAuth();
 createCardRestaurant();
 createCardRestaurant();
 createCardRestaurant();
 
 cartButton.addEventListener("click", toggleModal);
+
 close.addEventListener("click", toggleModal);
+
 cardsRestaurants.addEventListener('click', openGoods);
+
 logo.addEventListener('click', function () {
   containerPromo.classList.remove('hide');
   restaurants.classList.remove('hide');

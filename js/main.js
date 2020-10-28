@@ -1,4 +1,5 @@
-'use strict'
+'use strict';
+import Swiper from 'https://unpkg.com/swiper/swiper-bundle.esm.browser.min.js';
 // Элементы
 const cartButton = document.querySelector("#cart-button");
 const modal = document.querySelector(".modal");
@@ -19,6 +20,13 @@ const buttonAuth = document.querySelector('.button-auth'),
   cardsMenu = document.querySelector('.cards-menu');
 
 let login = localStorage.getItem('gloDelivery') || '';
+
+function validName(str) {
+  const regName = /^[a-zA-Z][a-zA-Z0-9-_\.]{1,20}$/;
+  return regName.test(str);
+}
+
+
 
 // Авторизация
 function toggleModal() {
@@ -65,7 +73,7 @@ function notAutorized() {
   function logIn(event) {
     event.preventDefault();
 
-    if (loginInput.value.trim()) {
+    if (validName(loginInput.value)) {
       login = loginInput.value;
       localStorage.setItem('gloDelivery', login);
       toggleModalAuth();
@@ -161,8 +169,9 @@ function createCardGood() {
 
 function openGoods(event) {
   const target = event.target;
-  const restaurant = target.closest('.card-restaurant');
+
   if (login) {
+    const restaurant = target.closest('.card-restaurant');
     if (restaurant) {
       cardsMenu.textContent = '';
       containerPromo.classList.add('hide');
@@ -198,5 +207,15 @@ logo.addEventListener('click', function () {
 
 
 
-
+// SLIDER
+new Swiper('.swiper-container', {
+  slidesPerView: 1,
+  loop: true,
+  autoplay: true,
+  grabCursor: true,
+  effect: 'cube',
+  cubeEffect: {
+    shadow: false
+  }
+});
 

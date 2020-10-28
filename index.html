@@ -5,10 +5,10 @@
 	<meta charset="UTF-8" />
 	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 	<title>Delivery Food — доставка еды на дом</title>
+	<link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.min.css">
 	<link href="https://fonts.googleapis.com/css?family=Roboto:400,700&display=swap&subset=cyrillic" rel="stylesheet" />
 	<link rel="stylesheet" href="css/normalize.css" />
 	<link rel="stylesheet" href="css/style.css" />
-	<!-- <link rel="stylesheet" href="https://unpkg.com/swiper/css/swiper.min.css"> -->
 </head>
 
 <body>
@@ -40,33 +40,35 @@
 	<!-- /.container  -->
 
 	<main class="main">
-		<div class="container">
-			<section class="container-promo">
-				<section class="promo pizza">
-					<h1 class="promo-title">Онлайн-сервис <br />доставки еды на дом</h1>
-					<p class="promo-text">
-						Блюда из любимого ресторана привезет курьер в перчатках, маске и с антисептиком
-					</p>
+		<div class="container ">
+			<div class="swiper-container">
+				<section class="container-promo swiper-wrapper">
+					<section class="promo pizza swiper-slide">
+						<h2 class="promo-title">Онлайн-сервис <br />доставки еды на дом</h2>
+						<p class="promo-text">
+							Блюда из любимого ресторана привезет курьер в перчатках, маске и с антисептиком
+						</p>
+					</section>
+					<section class="promo kebab swiper-slide">
+						<h2 class="promo-title">Шашлыки на майские <br> со скидкой 35%</h2>
+						<p class="promo-text">
+							Закажите шашлыки в любом ресторане до 10 мая и получите скидку по промокоду OMAGAD
+						</p>
+					</section>
+					<section class="promo vegetables swiper-slide">
+						<h2 class="promo-title">Скидка 20% на всю еду <br> по промокоду LOVE.JS</h2>
+						<p class="promo-text">
+							Блюдо из ресторана привезут вместе с двумя подарочными книгами по фронтенду
+						</p>
+					</section>
+					<section class="promo sushi swiper-slide">
+						<h2 class="promo-title">Сеты со скидкой до 30% <br> в ресторанах</h2>
+						<p class="promo-text">
+							Скидки на сеты до 30 мая по промокоду DADADA
+						</p>
+					</section>
 				</section>
-				<!-- <section class="promo kebab">
-					<h1 class="promo-title">Шашлыки на майские <br> со скидкой 35%</h1>
-					<p class="promo-text">
-						Закажите шашлыки в любом ресторане до 10 мая и получите скидку по промокоду OMAGAD
-					</p>
-				</section>
-				<section class="promo vegetables">
-					<h1 class="promo-title">Скидка 20% на всю еду <br> по промокоду LOVE.JS</h1>
-					<p class="promo-text">
-						Блюдо из ресторана привезут вместе с двумя подарочными книгами по фронтенду
-					</p>
-				</section>
-				<section class="promo sushi">
-					<h1 class="promo-title">Сеты со скидкой до 30% <br> в ресторанах</h1>
-					<p class="promo-text">
-						Скидки на сеты до 30 мая по промокоду DADADA
-					</p>
-				</section> -->
-			</section>
+			</div>
 			<section class="restaurants">
 				<div class="section-heading">
 					<h2 class="section-title">Рестораны</h2>
@@ -191,7 +193,7 @@
 				<fieldset class="modal-body">
 					<legend class="modal-title">Авторизация</legend>
 					<label class="label-auth">
-						<span class="input-alert">Введите логин</span>
+						<span class="input-alert">Неверный логин</span>
 						<span>Логин</span>
 						<input id="login" type="text">
 					</label>
@@ -211,9 +213,8 @@
 		</div>
 		<!-- /.modal-dialog -->
 	</div>
-	<!-- <script src="https://unpkg.com/swiper/js/swiper.min.js"></script> -->
 	<script src="./js/disabledScroll.js"></script>
-	<script src="js/main.js"></script>
+	<script src="js/main.js" type="module"></script>
 
 </body>
 

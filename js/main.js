@@ -123,7 +123,7 @@ function createCardRestaurant(restaurant) {
   const { image, kitchen, name, price, stars, products, time_of_delivery: timeOfDelivery } = restaurant;
 
   const card = `
-  <a class="card card-restaurant" data-products="${products}">
+  <a class="card card-restaurant" data-products="${products}" data-rest-name="${name}">
     <img src="${image}" alt="${name}" class="card-image" />
     <div class="card-text">
       <div class="card-heading">
@@ -151,6 +151,8 @@ function createCardRestaurant(restaurant) {
 
 function createCardGood(products) {
   const { id, name, description, price, image } = products;
+
+
   const card = document.createElement('div');
   card.classList.add('card');
   card.insertAdjacentHTML('beforeend', `
@@ -179,6 +181,18 @@ function createCardGood(products) {
   cardsMenu.insertAdjacentElement('beforeend', card);
 }
 
+function createDescRest(data) {
+  const restaurantTitle = document.querySelector('.section-heading .restaurant-title');
+  const ratingEl = document.querySelector('.section-heading .rating');
+  const priceEl = document.querySelector('.section-heading .price');
+  const categoryEl = document.querySelector('.section-heading .category');
+
+  restaurantTitle.textContent = data.name;
+  ratingEl.textContent = data.stars;
+  priceEl.textContent = data.price + ' ₽';
+  categoryEl.textContent = data.kitchen;
+}
+
 function openGoods(event) {
   const target = event.target;
 
@@ -192,6 +206,12 @@ function openGoods(event) {
       menu.classList.remove('hide');
       getData(`./db/${restaurant.dataset.products}`).then(function (data) {
         data.forEach(createCardGood);
+      });
+      getData(`./db/partners.json`).then(function (data) {
+        data.forEach((item) => {
+          if (item.name == restaurant.dataset.restName)
+            createDescRest(item);
+        });
       });
 
     }

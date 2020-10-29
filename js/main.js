@@ -17,7 +17,8 @@ const buttonAuth = document.querySelector('.button-auth'),
   restaurants = document.querySelector('.restaurants'),
   menu = document.querySelector('.menu'),
   logo = document.querySelector('.logo'),
-  cardsMenu = document.querySelector('.cards-menu');
+  cardsMenu = document.querySelector('.cards-menu'),
+  inputSearsh = document.querySelector('.input-search');
 
 let login = localStorage.getItem('gloDelivery') || '';
 // Запрос к базе данных
@@ -117,7 +118,6 @@ function checkAuth() {
   }
 }
 
-
 function createCardRestaurant(restaurant) {
 
   const { image, kitchen, name, price, stars, products, time_of_delivery: timeOfDelivery } = restaurant;
@@ -144,15 +144,11 @@ function createCardRestaurant(restaurant) {
   </a>
 <!-- /.card -->
   `;
-
   cardsRestaurants.insertAdjacentHTML('beforeend', card);
-
 }
 
 function createCardGood(products) {
   const { id, name, description, price, image } = products;
-
-
   const card = document.createElement('div');
   card.classList.add('card');
   card.insertAdjacentHTML('beforeend', `
@@ -189,7 +185,11 @@ function createDescRest(data) {
 
   restaurantTitle.textContent = data.name;
   ratingEl.textContent = data.stars;
-  priceEl.textContent = data.price + ' ₽';
+  if (!data.price == '') {
+    priceEl.textContent = 'от ' + data.price + ' ₽';
+  } else {
+    priceEl.textContent = '';
+  }
   categoryEl.textContent = data.kitchen;
 }
 
@@ -238,6 +238,55 @@ function init() {
     containerPromo.classList.remove('hide');
     restaurants.classList.remove('hide');
     menu.classList.add('hide')
+  });
+
+  inputSearsh.addEventListener('keypress', function (event) {
+
+
+    if (event.charCode === 13) {
+      const value = event.target.value.trim();
+
+      if (!value) {
+        event.target.value = '';
+        event.target.style.backgroundColor = 'tomato';
+        setTimeout(function () {
+          event.target.style.backgroundColor = '';
+        }, 1500);
+        return;
+      }
+
+      getData('./db/partners.json')
+        .then(function (data) {
+          return data.map(function (partner) {
+            return partner.products;
+          });
+        })
+        .then(function (linksProduct) {
+          cardsMenu.textContent = '';
+          linksProduct.forEach(function (link) {
+            getData(`./db/${link}`)
+              .then(function (data) {
+
+                const resultSearch = data.filter(function (item) {
+                  const name = item.name.toLowerCase();
+                  return name.includes(value.toLowerCase());
+                });
+
+                containerPromo.classList.add('hide');
+                restaurants.classList.add('hide');
+                menu.classList.remove('hide');
+                createDescRest({
+                  name: 'Результаты поиска',
+                  price: ''
+                });
+
+                resultSearch.forEach(createCardGood);
+              });
+          });
+
+        });
+    }
+
   });
 
   // SLIDER

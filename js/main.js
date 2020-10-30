@@ -1,5 +1,20 @@
 'use strict';
 import Swiper from 'https://unpkg.com/swiper/swiper-bundle.esm.browser.min.js';
+
+const optionSlider = {
+  slidesPerView: 1,
+  loop: true,
+  autoplay: true,
+  grabCursor: true,
+  effect: 'cube',
+  cubeEffect: {
+    shadow: false
+  }
+}
+
+// SLIDER
+const swiper = new Swiper('.swiper-container', optionSlider);
+
 // Элементы
 const cartButton = document.querySelector("#cart-button");
 const modal = document.querySelector(".modal");
@@ -23,9 +38,26 @@ const buttonAuth = document.querySelector('.button-auth'),
   modalPrice = document.querySelector('.modal-pricetag'),
   buttonClearCart = document.querySelector('.clear-cart');
 
-const cart = [];
 
 let login = localStorage.getItem('gloDelivery') || '';
+
+const cart = JSON.parse(localStorage.getItem(`gloDelivery_${login}`)) || [];
+
+function saveCart() {
+  localStorage.setItem(`gloDelivery_${login}`, JSON.stringify(cart));
+}
+
+function downloadCart() {
+  if (localStorage.getItem(`gloDelivery_${login}`)) {
+    const data = JSON.parse(localStorage.getItem(`gloDelivery_${login}`));
+
+    data.forEach(function (item) {
+      cart.push(item);
+    });
+  }
+}
+
+
 // Запрос к базе данных
 const getData = async function (url) {
   const response = await fetch(url);
@@ -61,10 +93,17 @@ function toggleModalAuth() {
   inputAlert.style.display = '';
 }
 
+function returnMain() {
+  containerPromo.classList.remove('hide');
+  restaurants.classList.remove('hide');
+  menu.classList.add('hide');
+}
+
 function autorized() {
 
   function logOut() {
     login = '';
+    cart.length = 0;
     localStorage.removeItem('gloDelivery');
     buttonAuth.style.display = '';
     userName.style.display = '';
@@ -72,6 +111,7 @@ function autorized() {
     cartButton.style.display = '';
     buttonOut.removeEventListener('click', logOut);
     checkAuth();
+    returnMain();
   }
 
   userName.textContent = login;
@@ -92,6 +132,7 @@ function notAutorized() {
       login = loginInput.value;
       localStorage.setItem('gloDelivery', login);
       toggleModalAuth();
+      downloadCart();
       buttonAuth.removeEventListener('click', toggleModalAuth);
       closeAuth.removeEventListener('click', toggleModalAuth);
       logInForm.removeEventListener('submit', logIn);
@@ -251,7 +292,7 @@ function addToCart(event) {
       });
     }
 
-    console.log(cart);
+    saveCart();
   }
 }
 
@@ -306,6 +347,7 @@ function changeCount(event) {
 
     food.count++;
     renderCart();
+    saveCart();
   }
 
 }
@@ -325,6 +367,7 @@ function init() {
   buttonClearCart.addEventListener('click', function () {
     cart.length = 0;
     renderCart();
+    saveCart();
   });
 
   modalBody.addEventListener('click', changeCount);
@@ -390,17 +433,7 @@ function init() {
 
   });
 
-  // SLIDER
-  new Swiper('.swiper-container', {
-    slidesPerView: 1,
-    loop: true,
-    autoplay: true,
-    grabCursor: true,
-    effect: 'cube',
-    cubeEffect: {
-      shadow: false
-    }
-  });
+
 }
 
 init();
